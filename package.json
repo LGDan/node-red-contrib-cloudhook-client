@@ -1,0 +1,31 @@
+{
+  "name": "node-red-contrib-cloudhook-client",
+  "version": "0.0.1",
+  "description": "Node-RED client for Cloudhook.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LGDan/node-red-contrib-cloudhook-client.git"
+  },
+  "keywords": [
+    "node-red",
+    "cloudhook"
+  ],
+  "author": "LGDan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LGDan/node-red-contrib-cloudhook-client/issues"
+  },
+  "homepage": "https://github.com/LGDan/node-red-contrib-cloudhook-client",
+  "dependencies": {
+    "socket.io-client": "^4.5.1"
+  },
+  "node-red": {
+    "nodes": {
+      "cloudhook-client": "cloudhook-client/cloudhook-client.js"
+    }
+  }
+}

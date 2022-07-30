@@ -1,0 +1,82 @@
+<!-- Config -->
+<script type="text/javascript">
+  'use strict';
+  /*global RED*/
+  RED.nodes.registerType('cloudhook-config', {
+      category: 'config',
+      defaults: {
+          uri: {
+              value: 'https://cloudhook.avantheim.hexagon.red',
+              required: true
+          }
+      },
+      label: function() {
+          return this.uri;
+      }
+  });
+</script>
+
+<script type="text/x-red" data-template-name="cloudhook-config">
+  <div class="form-row">
+    <label for="node-config-input-uri"><i class="fa fa-globe"></i> URI</label>
+    <input type="text" id="node-config-input-uri">
+  </div>
+</script>
+
+<!-- Listener -->
+<script type="text/javascript">
+  /*global RED*/
+  RED.nodes.registerType('cloudhook-standard', {
+      category: 'input',
+      inputs: 0,
+      outputs: 1,
+      color: '#6A6F78',
+      icon: 'socketio.png',
+      paletteLabel: 'Cloudhook',
+      defaults: {
+          server: {
+              value: '',
+              type: 'cloudhook-config'
+          },
+          hooktenant: {
+              value: '',
+              required: true
+          },
+          hookvalue: {
+              value: '',
+              required: true
+          },
+          name: {
+              value: ''
+          }
+      },
+      label: function() {
+          return this.name || this.hooktenant || this.hookvalue || 'Cloudhook';
+      }
+  });
+</script>
+
+<script type="text/x-red" data-template-name="cloudhook-standard">
+  <div class="form-row">
+    <label for="node-input-server"><i class="fa fa-globe"></i> Server</label>
+    <input type="text" id="node-input-server" placeholder="Server">
+  </div>
+  <div class="form-row">
+    <label for="node-input-hooktenant"><i class="icon-tasks"></i> Hook Tenant</label>
+    <input type="text" id="node-input-hooktenant" placeholder="Tenant">
+  </div>
+  <div class="form-row">
+    <label for="node-input-hookvalue"><i class="icon-tasks"></i> Hook Value</label>
+    <input type="text" id="node-input-hookvalue" placeholder="Value">
+  </div>
+  <div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+    <input type="text" id="node-input-name" placeholder="Name">
+  </div>
+</script>
+
+<script type="text/x-red" data-help-name="cloudhook-standard">
+  <p>Cloudhook Standard</p>
+  <p>Connects to the specified Cloudhook server, and subscribes on the standard endpoint to tenant/value.</p>
+  <p>The outgoing <code>msg.payload</code> will be set to any messages recieved on that hook.</p>
+</script>
