@@ -23,15 +23,15 @@
   </div>
 </script>
 
-<!-- Listener -->
+<!-- Standard -->
 <script type="text/javascript">
   /*global RED*/
   RED.nodes.registerType('cloudhook-standard', {
-      category: 'input',
+      category: 'network',
       inputs: 0,
       outputs: 1,
-      color: '#6A6F78',
-      icon: 'socketio.png',
+      color: '#a6cccf',
+      icon: 'cloudhook.svg',
       paletteLabel: 'Cloudhook',
       defaults: {
           server: {
@@ -51,7 +51,7 @@
           }
       },
       label: function() {
-          return this.name || this.hooktenant || this.hookvalue || 'Cloudhook';
+          return this.name || this.hookvalue || 'Cloudhook';
       }
   });
 </script>
@@ -76,7 +76,115 @@
 </script>
 
 <script type="text/x-red" data-help-name="cloudhook-standard">
-  <p>Cloudhook Standard</p>
-  <p>Connects to the specified Cloudhook server, and subscribes on the standard endpoint to tenant/value.</p>
-  <p>The outgoing <code>msg.payload</code> will be set to any messages recieved on that hook.</p>
+  <p>This node emits messages sent via HTTP POST or GET to https:/ch.example.com/hook/<code>tenant</code>/<code>hook</code>.</p>
+  <p>The outgoing <code>msg.payload</code> will be set to any messages recieved on that URL.</p>
+</script>
+
+
+<!-- Load Balance -->
+<script type="text/javascript">
+  /*global RED*/
+  RED.nodes.registerType('cloudhook-loadbalance', {
+      category: 'network',
+      inputs: 0,
+      outputs: 1,
+      color: '#a6cccf',
+      icon: 'cloudhook.svg',
+      paletteLabel: 'Cloudhook Loadbalance',
+      defaults: {
+          server: {
+              value: '',
+              type: 'cloudhook-config'
+          },
+          hooktenant: {
+              value: '',
+              required: true
+          },
+          hookvalue: {
+              value: '',
+              required: true
+          },
+          name: {
+              value: ''
+          }
+      },
+      label: function() {
+          return this.name || this.hookvalue || 'Cloudhook Loadbalance';
+      }
+  });
+</script>
+
+<script type="text/x-red" data-template-name="cloudhook-loadbalance">
+  <div class="form-row">
+    <label for="node-input-server"><i class="fa fa-globe"></i> Server</label>
+    <input type="text" id="node-input-server" placeholder="Server">
+  </div>
+  <div class="form-row">
+    <label for="node-input-hooktenant"><i class="icon-tasks"></i> Hook Tenant</label>
+    <input type="text" id="node-input-hooktenant" placeholder="Tenant">
+  </div>
+  <div class="form-row">
+    <label for="node-input-hookvalue"><i class="icon-tasks"></i> Hook Value</label>
+    <input type="text" id="node-input-hookvalue" placeholder="Value">
+  </div>
+  <div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+    <input type="text" id="node-input-name" placeholder="Name">
+  </div>
+</script>
+
+<script type="text/x-red" data-help-name="cloudhook-loadbalance">
+  <p>This node emits messages sent via HTTP POST or GET to https://ch.example.com/lb/<code>tenant</code>/<code>hook</code>.</p>
+  <p>As this is load balanced, the server will forward messages round-robin to every client listening in the order that they subscribed in.</p>
+  <p>The outgoing <code>msg.payload</code> will be set to any messages recieved on that URL.</p>
+</script>
+
+<!-- Hash -->
+<script type="text/javascript">
+  /*global RED*/
+  RED.nodes.registerType('cloudhook-hash', {
+      category: 'network',
+      inputs: 0,
+      outputs: 1,
+      color: '#a6cccf',
+      icon: 'cloudhook.svg',
+      paletteLabel: 'Cloudhook Hash',
+      defaults: {
+          server: {
+              value: '',
+              type: 'cloudhook-config'
+          },
+          hash: {
+              value: '',
+              required: true
+          },
+          name: {
+              value: ''
+          }
+      },
+      label: function() {
+          return this.name || this.hash || 'Cloudhook Hash';
+      }
+  });
+</script>
+
+<script type="text/x-red" data-template-name="cloudhook-hash">
+  <div class="form-row">
+    <label for="node-input-server"><i class="fa fa-globe"></i> Server</label>
+    <input type="text" id="node-input-server" placeholder="Server">
+  </div>
+  <div class="form-row">
+    <label for="node-input-hash"><i class="icon-tasks"></i> Hook Hash</label>
+    <input type="text" id="node-input-hash" placeholder="Hash">
+  </div>
+  <div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+    <input type="text" id="node-input-name" placeholder="Name">
+  </div>
+</script>
+
+<script type="text/x-red" data-help-name="cloudhook-hash">
+  <p>This node emits messages sent via HTTP POST or GET to https://ch.example.com/hash/<code>hash</code>.</p>
+  <p>Only people that know the original <code>tenant</code>/<code>hook</code> will be able to send things to this URL. Everyone with the <code>hash</code> can only listen.</p>
+  <p>The outgoing <code>msg.payload</code> will be set to any messages recieved on that URL.</p>
 </script>
